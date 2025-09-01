@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Canjea tu vale · Vuelos</title>
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Firebase (NO ES6 módulos) -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+</head>
+<body>
+  <!-- TOP BAR (sin links falsos) -->
+  <header class="topbar">
+    <div class="wrap bar">
+      <span class="brand"><span class="logo">✈️</span> CANJEA TU VALE</span>
+      <span class="spacer"></span>
+      <a class="link" href="#" aria-disabled="true">Ayuda</a>
+    </div>
+
+    <!-- Título simple de búsqueda -->
+    <div class="wrap tabs">
+      <span class="tab active" aria-current="page">✈️ Canjeo de vuelo</span>
+    </div>
+
+    <!-- BARRA DE CANJEO -->
+    <div class="wrap search">
+      <form id="flightForm" class="searchbar">
+        <label class="pill">
+          <span class="pill-head">Origen</span>
+          <select id="origen" required></select>
+        </label>
+        <label class="pill">
+          <span class="pill-head">Destino</span>
+          <select id="destino" required></select>
+        </label>
+        <label class="pill small">
+          <span class="pill-head">Fecha</span>
+          <input id="fechaSalida" type="date" required />
+        </label>
+        <label class="pill small">
+          <span class="pill-head">Regreso</span>
+          <input id="fechaRegreso" type="date" />
+        </label>
+        <label class="pill xs">
+          <span class="pill-head">Personas</span>
+          <select id="pasajeros" required>
+            <option value="1">1</option><option value="2">2</option>
+            <option value="3">3</option><option value="4">4</option>
+            <option value="5+">5+</option>
+          </select>
+        </label>
+        <label class="pill xs">
+          <span class="pill-head">Clase</span>
+          <select id="clase">
+            <option value="economy">Turista</option>
+            <option value="premium">Premium</option>
+            <option value="business">Business</option>
+          </select>
+        </label>
+        <button id="submitBtn" class="btn cta" type="submit">Canjear</button>
+      </form>
+
+      <label class="consent">
+        <input id="consent" type="checkbox" required />
+        Acepto que se guarden mis datos de canje para gestionar el vale.
+      </label>
+      <p id="status" class="status" aria-live="polite"></p>
+    </div>
+  </header>
+
+  <main class="wrap body">
+    <!-- AVISO REALISTA -->
+    <div class="notice info">
+      <strong>Instrucciones:</strong> Para canjear tu vale, indica ciudad de origen y destino, fecha deseada,
+      número de personas y clase. Tras enviar, recibirás un correo con los pasos de confirmación.
+    </div>
+
+    <!-- BANNER neutro (sin “solo miembros”) -->
+    <section class="promo">
+      <h2>Canjea tu vale de vuelo</h2>
+      <p>Fechas sujetas a disponibilidad. Sin cargos durante el proceso de canje.</p>
+    </section>
+
+    <section class="columns">
+      <article class="card">
+        <h3>Consejos de canje</h3>
+        <ul>
+          <li>Si puedes, elige fechas flexibles.</li>
+          <li>Comprueba la ortografía de las ciudades.</li>
+          <li>La clase “Turista” ofrece mayor disponibilidad.</li>
+        </ul>
+      </article>
+      <article class="card">
+        <h3>Destinos frecuentes</h3>
+        <div class="chips">
+          <button class="chip" data-city="Estambul">Estambul</button>
+          <button class="chip" data-city="Roma">Roma</button>
+          <button class="chip" data-city="París">París</button>
+          <button class="chip" data-city="Zúrich">Zúrich</button>
+          <button class="chip" data-city="Berlín">Berlín</button>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <small>© 2025 Canjea tu vale. Términos · Privacidad.</small>
+    </div>
+  </footer>
+
+  <!-- Modal AGRADECIMIENTO -->
+  <dialog id="thanksModal" class="modal">
+    <div class="modal-head">
+      <h2>¡Solicitud de canje recibida!</h2>
+      <button class="btn ghost" id="closeThanks">Cerrar</button>
+    </div>
+    <div class="modal-body">
+      <p>Gracias por tu selección. En breve recibirás un correo con los pasos para confirmar el canje.</p>
+      <div id="summary" class="summary"></div>
+      <button class="btn cta block" id="okThanks">Entendido</button>
+    </div>
+  </dialog>
+
+  <!-- (Admin oculto eliminado) -->
+
+  <!-- Config Firebase -->
+  <script>
+    window.firebaseConfig = {
+      apiKey: "AIzaSyCGcI9PFKZhnAN404yslQO2zurKOFLvoRw",
+      authDomain: "idiomas-3f0a3.firebaseapp.com",
+      databaseURL: "https://idiomas-3f0a3-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "idiomas-3f0a3",
+      storageBucket: "idiomas-3f0a3.firebasestorage.app",
+      messagingSenderId: "1080268564792",
+      appId: "1:1080268564792:web:da0c2cef7a0bdc364d39cd"
+    };
+  </script>
+  <script src="app.js"></script>
+</body>
+</html>
