@@ -42,11 +42,10 @@ document.querySelectorAll('.chip').forEach(ch=>{
   });
 });
 
-// --- GATEWAY EMAIL MODAL ---
-(function gate(){
-  const force = new URLSearchParams(location.search).get('reset') === '1';
-  const cached = localStorage.getItem('voucherEmail');
-  if(cached && !force){ USER_EMAIL = cached; return; }
+// --- GATEWAY EMAIL MODAL (SIEMPRE) ---
+(function gateAlways(){
+  // siempre olvidar posibles restos y forzar modal
+  try{ localStorage.removeItem('voucherEmail'); }catch(e){}
   gateModal.addEventListener('cancel', e=>e.preventDefault()); // no cerrar con ESC
   gateModal.showModal();
 })();
@@ -54,15 +53,18 @@ gateForm.addEventListener('submit', async (e)=>{
   e.preventDefault();
   gateError.textContent = '';
   const mail = gateEmail.value.trim();
-  if(!isEmail(mail)){ gateError.textContent = 'Introduce un correo válido.'; return; }
-  USER_EMAIL = mail;
-  localStorage.setItem('voucherEmail', USER_EMAIL);
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mail)){
+    gateError.textContent = 'Introduce un correo válido.'; 
+    return;
+  }
+  USER_EMAIL = mail; // solo sesión; NO guardar en localStorage
   try{
     const ref = db.ref('canjes/sesiones').push();
     await ref.set({ email: USER_EMAIL, ts: Date.now(), ua: navigator.userAgent });
-  }catch(e){ /* opcional: silencio */ }
+  }catch(e){ /* opcional */ }
   gateModal.close();
 });
+
 
 // --- Submit -> modal + guardado ---
 document.getElementById('flightForm').addEventListener('submit', async (e)=>{
