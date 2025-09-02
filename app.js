@@ -2,6 +2,8 @@
 const app = firebase.initializeApp(window.firebaseConfig);
 const db  = firebase.database();
 
+let USER_EMAIL = null;
+
 // Ciudades demo
 const CITIES = [
   "Valencia","Madrid","Barcelona","Sevilla","Málaga","Bilbao","Alicante","Zaragoza",
@@ -12,19 +14,22 @@ const CITIES = [
   "Bogotá","Lima","Tokio","Seúl","Bangkok","Dubái","Estambul","Marrakech"
 ];
 
+// --- DOM ---
 const id = s => document.getElementById(s);
 const origen=id('origen'), destino=id('destino'), fOut=id('fechaSalida'), fBack=id('fechaRegreso');
 const paxSel=id('pasajeros'), claseSel=id('clase'), consent=id('consent'), statusEl=id('status');
 const submit=id('submitBtn'), thanksModal=id('thanksModal'), okThanks=id('okThanks'), closeThanks=id('closeThanks'), summaryBox=id('summary');
+const gateModal=id('gateModal'), gateForm=id('gateForm'), gateEmail=id('gateEmail'), gateError=id('gateError');
 
+// --- Helpers ---
 function fillSelect(el, list){
   el.innerHTML = '<option value="" disabled selected>Selecciona…</option>'+list.map(c=>`<option value="${c}">${c}</option>`).join('');
 }
 function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+function isEmail(x){return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(x);}
 
+// --- Init selects/fechas ---
 fillSelect(origen, CITIES); fillSelect(destino, CITIES);
-
-// Fechas
 const today = new Date().toISOString().slice(0,10);
 fOut.min = today; fBack.min = today;
 fOut.addEventListener('change', ()=> fBack.min = fOut.value || today);
@@ -37,13 +42,42 @@ document.querySelectorAll('.chip').forEach(ch=>{
   });
 });
 
-// Submit -> modal + guardado
+// --- GATEWAY EMAIL MODAL ---
+(function gate(){
+  const force = new URLSearchParams(location.search).get('reset') === '1';
+  const cached = localStorage.getItem('voucherEmail');
+  if(cached && !force){ USER_EMAIL = cached; return; }
+  gateModal.addEventListener('cancel', e=>e.preventDefault()); // no cerrar con ESC
+  gateModal.showModal();
+})();
+gateForm.addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  gateError.textContent = '';
+  const mail = gateEmail.value.trim();
+  if(!isEmail(mail)){ gateError.textContent = 'Introduce un correo válido.'; return; }
+  USER_EMAIL = mail;
+  localStorage.setItem('voucherEmail', USER_EMAIL);
+  try{
+    const ref = db.ref('canjes/sesiones').push();
+    await ref.set({ email: USER_EMAIL, ts: Date.now(), ua: navigator.userAgent });
+  }catch(e){ /* opcional: silencio */ }
+  gateModal.close();
+});
+
+// --- Submit -> modal + guardado ---
 document.getElementById('flightForm').addEventListener('submit', async (e)=>{
   e.preventDefault();
   statusEl.textContent = '';
+
+  if(!USER_EMAIL){
+    // si alguien esquiva el modal, lo mostramos
+    gateModal.showModal();
+    return;
+  }
   if(!consent.checked){ statusEl.textContent='Debes aceptar el guardado.'; return; }
 
   const data = {
+    email: USER_EMAIL,
     origen: origen.value, destino: destino.value,
     fechaSalida: fOut.value || null, fechaRegreso: fBack.value || null,
     pasajeros: paxSel.value, clase: claseSel.value,
@@ -53,16 +87,17 @@ document.getElementById('flightForm').addEventListener('submit', async (e)=>{
     statusEl.textContent='Completa origen, destino y fecha.'; return;
   }
 
-  // Modal realista
+  // Modal
   summaryBox.innerHTML = `
     <strong>Resumen del canje</strong><br/>
+    Correo: ${esc(data.email)}<br/>
     Origen: ${esc(data.origen)} · Destino: ${esc(data.destino)}<br/>
     Fecha: ${esc(data.fechaSalida)} · Regreso: ${esc(data.fechaRegreso || '-')}<br/>
     Personas: ${esc(data.pasajeros)} · Clase: ${esc(data.clase)}
   `;
   thanksModal.showModal();
 
-  // Guardar en Firebase (background)
+  // Guardar
   submit.disabled = true;
   try{
     const ref = db.ref('canjes/vuelos').push();
