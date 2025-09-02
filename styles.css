@@ -41,7 +41,7 @@ html,body{margin:0;overflow-x:hidden;background:var(--bg);color:var(--ink);
 
 /* inputs 16px para que iOS NO haga zoom y no rompa el modal */
 select,input[type="date"],input[type="email"]{
-  width:100%;max-width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--line);
+  width:100%;max-width:90%;padding:10px 10px;border-radius:8px;border:1px solid var(--line);
   background:#fff;outline:none;font-size:16px; /* clave */
 }
 select:focus,input:focus{border-color:#9db4ff;box-shadow:0 0 0 3px rgba(13,79,209,.15)}
