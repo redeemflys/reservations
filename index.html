@@ -34,7 +34,7 @@
           <select id="destino" required></select>
         </label>
         <label class="pill small">
-          <span class="pill-head">Fecha</span>
+          <span class="pill-head">Ida</span>
           <input id="fechaSalida" type="date" required />
         </label>
         <label class="pill small">
@@ -52,9 +52,9 @@
         <label class="pill xs">
           <span class="pill-head">Clase</span>
           <select id="clase">
-            <option value="economy">Turista</option>
-            <option value="premium">Premium</option>
-            <option value="business">Business</option>
+            <option value="Turista">Turista</option>
+            <option value="Premium">Premium</option>
+            <option value="Business">Business</option>
           </select>
         </label>
         <button id="submitBtn" class="btn cta" type="submit">Canjear</button>
@@ -102,11 +102,11 @@
   <!-- Modal AGRADECIMIENTO -->
   <dialog id="thanksModal" class="modal">
     <div class="modal-head">
-      <h2>¡Solicitud de canje recibida!</h2>
+      <h2>¡Enhorabuena!</h2>
       <button class="btn ghost" id="closeThanks">Cerrar</button>
     </div>
     <div class="modal-body">
-      <p>Gracias por tu selección. En breve recibirás un correo con los pasos para confirmar el canje.</p>
+      <p>Tu selección se ha realizado correctamente. Recibirás los vuelos en tu correo próximamente.</p>
       <div id="summary" class="summary"></div>
       <button class="btn cta block" id="okThanks">Entendido</button>
     </div>
