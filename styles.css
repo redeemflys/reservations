@@ -124,18 +124,29 @@ select:focus,input:focus{border-color:#9db4ff;box-shadow:0 0 0 3px rgba(13,79,20
 .gateform{display:flex;flex-direction:column;gap:12px;margin-top:8px}
 .field{display:flex;flex-direction:column;gap:6px;min-width:0}
 .field span{font-size:13px;color:#374151}
+
+
 select,
 input[type="date"],
 input[type="email"] {
   width: 100%;
-  max-width: 100%;       /* <-- clave */
-  padding: 10px 12px;
+  max-width: 100%;
+  height: 44px;          /* fuerza altura uniforme */
+  line-height: 1.2;      /* evita desbordes */
+  padding: 0 12px;       /* menos padding vertical */
   border-radius: 8px;
   border: 1px solid var(--line);
   background: #fff;
   outline: none;
   font-size: 16px;
-  box-sizing: border-box; /* <-- asegura que respete padding */
+  box-sizing: border-box;
+}
+@media (min-width: 768px) {
+  select,
+  input[type="date"],
+  input[type="email"] {
+    height: 40px;
+  }
 }
 .pill {
   min-width: 0;   /* evita que fuerce anchura mayor */
