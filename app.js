@@ -6,12 +6,12 @@ let USER_EMAIL = null;
 
 // Ciudades demo
 const CITIES = [
-  "Valencia","Madrid","Barcelona","Sevilla","Málaga","Bilbao","Alicante","Zaragoza",
-  "Palma","Granada","Tenerife","Las Palmas","Santiago","Vigo","A Coruña",
-  "Lisboa","Oporto","París","Londres","Roma","Milán","Berlín","Múnich",
-  "Zúrich","Ginebra","Basilea","Viena","Ámsterdam","Bruselas","Praga",
+  "Valencia","Madrid","Barcelona","Sevilla","Málaga","Zúrich","Alicante","Zaragoza",
+  "Palma","Estambul","Tenerife","Las Palmas","Santiago","Vigo","A Coruña",
+  "Lisboa","Oporto","París","Granada","Roma","Milán","Berlín","Múnich",
+  "Bilbao","Ginebra","Basilea","Viena","Ámsterdam","Bruselas","Praga",
   "Nueva York","Miami","Los Ángeles","Ciudad de México","Buenos Aires","Santiago de Chile",
-  "Bogotá","Lima","Tokio","Seúl","Bangkok","Dubái","Estambul","Marrakech"
+  "Bogotá","Lima","Tokio","Seúl","Bangkok","Dubái","Londres","Marrakech"
 ];
 
 // --- DOM ---
