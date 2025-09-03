@@ -122,3 +122,21 @@ input[type="email"]{
 .gateform{display:flex;flex-direction:column;gap:12px;margin-top:8px}
 .field{display:flex;flex-direction:column;gap:6px;min-width:0}
 .field span{font-size:13px;color:#374151}
+/* Ajuste fino fechas en móvil (iOS/Android) */
+@media (max-width:680px){
+  input[type="date"]{
+    -webkit-appearance: none; /* iOS */
+    appearance: none;
+    height: 38px;          /* ↓ altura */
+    line-height: 38px;     /* centra el texto */
+    padding: 0 10px;       /* menos padding vertical */
+    font-size: 15px;       /* ↓ tamaño fuente */
+    border-radius: 8px;
+  }
+  /* quita rellenos internos que hinchan el control en iOS */
+  input[type="date"]::-webkit-datetime-edit{ padding:0; }
+  input[type="date"]::-webkit-date-and-time-value{ min-height:auto; }
+  input[type="date"]::-webkit-calendar-picker-indicator{ padding:0 6px; }
+  /* que el contenedor no “crezca” */
+  .pill.small{ min-height: 50px; }
+}
