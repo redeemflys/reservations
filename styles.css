@@ -169,6 +169,6 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 
 /* En móvil ajusta un pelín la tipografía para que quepa cómodo */
 @media (max-width:680px){
-  input[type="date"]{ font-size:15px; height:38px; line-height:38px; padding:0 10px; max-width: 120px;}
+  input[type="date"]{ font-size:15px; height:38px; line-height:38px; padding:0 10px; max-width: 140px;}
   .pill{ padding:6px 8px;  }
 }
