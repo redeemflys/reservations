@@ -134,9 +134,9 @@ input[type="email"]{
     border-radius: 8px;
   }
   /* quita rellenos internos que hinchan el control en iOS */
-  input[type="date"]::-webkit-datetime-edit{ padding:0; }
-  input[type="date"]::-webkit-date-and-time-value{ min-height:auto; }
-  input[type="date"]::-webkit-calendar-picker-indicator{ padding:0 6px; }
+  input[type="date"]::-webkit-datetime-edit{ padding:0; max-width: 120px;}
+  input[type="date"]::-webkit-date-and-time-value{ min-height:auto; max-width: 120px; }
+  input[type="date"]::-webkit-calendar-picker-indicator{ padding:0 6px; max-width: 120px; }
   /* que el contenedor no “crezca” */
   .pill.small{ min-height: 50px; }
 }
@@ -157,16 +157,18 @@ input[type="date"]{
 /* Safari/iOS fuerza un ancho mínimo en la parte editable */
 input[type="date"]::-webkit-datetime-edit,
 input[type="date"]::-webkit-date-and-time-value{
-  min-width: 0 !important;    /* quita el “min-width” interno */
+  min-width: 0 !important;
+  max-width: 120px;    /* quita el “min-width” interno */
 }
 
 /* Indicador del calendario sin empujar el contenido */
 input[type="date"]::-webkit-calendar-picker-indicator{
   padding: 0 6px;
+  max-width: 120px;
 }
 
 /* En móvil ajusta un pelín la tipografía para que quepa cómodo */
 @media (max-width:680px){
-  input[type="date"]{ font-size:15px; height:38px; line-height:38px; padding:0 10px; }
-  .pill{ padding:6px 8px; }
+  input[type="date"]{ font-size:15px; height:38px; line-height:38px; padding:0 10px; max-width: 120px;}
+  .pill{ padding:6px 8px;  }
 }
